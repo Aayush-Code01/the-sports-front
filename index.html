@@ -335,25 +335,101 @@
       overflow: hidden;
     }
 
-    .hero-bg {
+    /* Slideshow Container */
+    .hero-slideshow {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-image: url('https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg');
+      z-index: -2;
+    }
+
+    /* Individual Slide */
+    .hero-slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-size: cover;
       background-position: center;
-      z-index: -1;
-      transition: opacity 0.5s;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
     }
     
-    /* Overlay for text visibility */
-    .hero-bg::after {
-      content: '';
+    /* Overlay for text visibility (Separate from BG now) */
+    .hero-overlay {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      /* Reduced overlay opacity */
+      z-index: -1;
+      /* Default Dark Mode Gradient */
       background: linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+      pointer-events: none;
+    }
+
+    /* Use same overlay for light mode as requested previously (dark overlay persists) */
+    /* If you want to revert to the lighter overlay logic from earlier, uncomment below. 
+       Currently keeping it dark for text legibility on photos. */
+    /* body.light-mode .hero-overlay {
+       background: linear-gradient(to right, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.0) 100%);
+    } */
+
+    /* Hero Controls (Bottom Right) */
+    .hero-controls {
+      position: absolute;
+      bottom: 5vh;
+      right: 4vw; /* Matches container left padding */
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-arrow {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      width: 44px; 
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+    
+    .hero-arrow:hover {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .hero-dot {
+      width: 8px; 
+      height: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero-dot.active {
+      background: var(--accent-green);
+      transform: scale(1.4);
+    }
+    
+    .hero-dot:hover {
+      background: #fff;
     }
 
     /* Left aligned container with spacing */
@@ -1263,25 +1339,45 @@
   <!-- HOME PAGE VIEW -->
   <div id="home-page" class="page-view active">
     <!-- Hero Section -->
-    <section class="hero" id="home">
-      <div class="hero-bg"></div>
-      <div class="container">
-        <div class="hero-content">
-          <!-- Removed text-gradient class -->
-          <h1 class="fade-up">Where Legends Play & <br>Global Brands Rise</h1>
-          <p class="fade-up">
-            From sold-out stadiums in Mumbai to bespoke IP creation in the Middle East. TheSportsFront bridges the gap between football heritage and commercial success.
-          </p>
-          <div class="hero-btns fade-up">
-            <a href="#services" class="btn-primary">Our Expertise</a>
-            <a href="#contact" class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView();">Partner With Us</a>
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="hero" id="home">
+  <!-- Slideshow Container -->
+  <div class="hero-slideshow">
+    <!-- Slides injected via JS -->
+  </div>
+  
+  <!-- Overlay -->
+  <div class="hero-overlay"></div>
+  
+  <!-- Navigation Controls -->
+  <div class="hero-controls">
+    <button class="hero-arrow prev-hero" aria-label="Previous Slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="hero-dots">
+      <!-- Dots injected via JS -->
+    </div>
+    <button class="hero-arrow next-hero" aria-label="Next Slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
 
-    <!-- Trusted By Strip -->
-    <div class="partners-strip">
+  <div class="container">
+    <div class="hero-content">
+      <!-- Removed text-gradient class -->
+      <h1 class="fade-up">Where Legends Play & <br>Global Brands Rise</h1>
+      <p class="fade-up">
+        From sold-out stadiums in Mumbai to bespoke IP creation in the Middle East. TheSportsFront bridges the gap between football heritage and commercial success.
+      </p>
+      <div class="hero-btns fade-up">
+        <a href="#services" class="btn-primary">Our Expertise</a>
+        <a href="#contact" class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView();">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trusted By Strip (Marquee) -->
+<div class="partners-strip">
       <div class="partners-track">
         <div class="partner-item"><span class="partner-logo">GLOBAL LEAGUES</span><span class="partner-separator">✦</span></div>
         <div class="partner-item"><span class="partner-logo">PREMIER CLUBS</span><span class="partner-separator">✦</span></div>
@@ -1855,6 +1951,81 @@
   
   let resizeTimeout;
   window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(() => { if(pdfDoc) renderPage(pageNum); }, 200); });
+
+  // --- Hero Slideshow Logic ---
+  const heroImageSources = [
+    'assets/hero/1.jpg',
+    'assets/hero/2.jpg',
+    'assets/hero/3.jpg',
+    'assets/hero/4.jpg'
+  ];
+
+  // 1. Shuffle Images
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  shuffleArray(heroImageSources);
+
+  // 2. Init Elements
+  const heroSlideshow = document.querySelector('.hero-slideshow');
+  const heroDotsContainer = document.querySelector('.hero-dots');
+
+  heroImageSources.forEach((src, index) => {
+    // Create Slide
+    const slide = document.createElement('div');
+    slide.className = `hero-slide ${index === 0 ? 'active' : ''}`;
+    slide.style.backgroundImage = `url('${src}')`;
+    heroSlideshow.appendChild(slide);
+
+    // Create Dot
+    const dot = document.createElement('div');
+    dot.className = `hero-dot ${index === 0 ? 'active' : ''}`;
+    dot.addEventListener('click', () => goToHeroSlide(index));
+    heroDotsContainer.appendChild(dot);
+  });
+
+  let currentHeroSlide = 0;
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  const heroDots = document.querySelectorAll('.hero-dot');
+  let heroInterval;
+
+  function goToHeroSlide(n) {
+    // Remove active class
+    heroSlides[currentHeroSlide].classList.remove('active');
+    heroDots[currentHeroSlide].classList.remove('active');
+    
+    // Calculate new index
+    currentHeroSlide = (n + heroSlides.length) % heroSlides.length;
+    
+    // Add active class
+    heroSlides[currentHeroSlide].classList.add('active');
+    heroDots[currentHeroSlide].classList.add('active');
+    
+    resetHeroTimer();
+  }
+
+  function nextHeroSlide() {
+    goToHeroSlide(currentHeroSlide + 1);
+  }
+
+  function prevHeroSlide() {
+    goToHeroSlide(currentHeroSlide - 1);
+  }
+
+  function resetHeroTimer() {
+    clearInterval(heroInterval);
+    heroInterval = setInterval(nextHeroSlide, 7000);
+  }
+
+  // Event Listeners
+  document.querySelector('.prev-hero').addEventListener('click', prevHeroSlide);
+  document.querySelector('.next-hero').addEventListener('click', nextHeroSlide);
+
+  // Start Timer
+  resetHeroTimer();
 
 </script>
 
